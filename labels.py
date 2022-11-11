@@ -1,98 +1,167 @@
-from fpdf import FPDF
-import random
-#pip install fpdf2
+from fpdf import FPDF #pip install fpdf2
+import random # this import is needed only for testing functionality
+import math
+from pathlib import Path
 
-pdf = FPDF(unit='in',format=(8.5,11))
+#region Configuration
+#MASTER section
+UNIT_TYPE='in' #'in' means Inches. Can also be 'mm' for millimeter and 'cm' for centimeter
+PAGE_HEIGHT=11 #inches
+PAGE_WIDTH=8.5 #inches
+LEFT_MARGIN=0.137 #inches
+TOP_MARGIN=0.5 #inches
+RIGHT_MARGIN=0.137 #inches
+INNER_MARGIN=0.118 #inches
+BOTTOM_MARGIN=None #Determined by the calculation of the other margins and page size
+LABEL_WIDTH=2.625 #inches
+LABEL_HEIGHT=1 #inches
+LABEL_COUNT_UP_DOWN=10
+LABEL_COUNT_LEFT_RIGHT=3
+MASTER_FONT_TYPE='helvetica'
+MASTER_FONT_SIZE=7
+MASTER_FONT_BOLD=True
+LABEL_OUTPUT_LOCATION=f"{Path(__file__).parent.absolute()}\\labels.pdf"
+ADD_LABEL_BORDERS=True #Adds borders to the labels
+TESTING_MODE=True #Adds fake people. Turn off when ready to use with real people
+TESTING_MODE_FAKE_PEOPLE_AMOUNT=200 #Amount of fake people to add for testing mode
 
-# define one column and one row margins
-pdf.set_margins(0.137,0.5)
-pdf.set_font('helvetica','B',7)
+#NAME label section
+HEIGHT_ABOVE_NAME=0.25 #inches
+NAME_FONT_TYPE='helvetica'
+NAME_FONT_SIZE=10
+NAME_FONT_BOLD=True
+NAME_HEIGHT=0.2 #inches
+HEIGHT_BELOW_NAME=0.2 #inches
+
+#ADDRESS label section
+ADDRESS_FONT_TYPE='helvetica'
+ADDRESS_FONT_SIZE=8
+ADDRESS_FONT_BOLD=True
+ADDRESS_HEIGHT=0.2 #inches
+HEIGHT_BELOW_ADDRESS=0.2 #inches
+
+#STATE, CITY, and ZIP label section
+STATE_CITY_ZIP_FONT_TYPE='helvetica'
+STATE_CITY_ZIP_FONT_SIZE=8
+STATE_CITY_ZIP_BOLD=True
+STATE_CITY_ZIP_HEIGHT=0.1 #inches
+HEIGHT_BELOW_STATE_CITY_ZIP=0.35 #inches
+
+pdf = FPDF(unit=UNIT_TYPE,format=(PAGE_WIDTH,PAGE_HEIGHT))
+
+pdf.set_margins(LEFT_MARGIN,TOP_MARGIN,RIGHT_MARGIN)
+pdf.set_font(MASTER_FONT_TYPE,'B' if MASTER_FONT_BOLD else '',MASTER_FONT_SIZE)
 pdf.set_auto_page_break(False)
-pdf.add_page()
+#endregion
 
-#define total rows containing labels. 
-rows=10
-# define total columns containing labels
-cols=3
-#The width of each column
-columnsize=2.625
-#The width between the inner columns (not the last column)
-inner_cell_margin=0.118
-# Output location
-output_location="C:\\Users\\Zachary Laney\\Documents\\labels\\labels.pdf"
-
-def get_random_name():
+#region Main Code
+def get_random_name_for_testing():
+    '''
+    Gets a random male or female name
+    '''
     return random.choice(["John Doe", "Mary Jane"])
 
-def get_random_address():
-    return f"{random.randrange(1, 1000)} My Address Unit #{random.randrange(100, 1000, 2)}"
+def get_random_address_for_testing():
+    '''
+    Gets a partially randomized address
+    '''
+    return f"{random.randrange(1, 1000)} blvd. The Address Unit #{random.randrange(100, 1000, 2)}"
 
-for i in range(rows):
-    for j in range(cols):
-        this_columnsize=columnsize
-        if j < cols:
-            this_columnsize = this_columnsize + inner_cell_margin
-        pdf.cell(w=this_columnsize,h=1,fill=False, align="C", border=1)
-    pdf.ln(0.25)
-    for j in range(cols):
-        this_columnsize=columnsize
-        if j < cols:
-            this_columnsize = this_columnsize + inner_cell_margin
-        pdf.set_font('helvetica','B',10)
-        pdf.cell(w=this_columnsize,h=0.2,txt=get_random_name(), align="C")
-    pdf.ln(0.2)
-    for j in range(cols):
-        this_columnsize=columnsize
-        if j < cols:
-            this_columnsize = this_columnsize + inner_cell_margin
-        pdf.set_font('helvetica','B',8)
-        pdf.cell(w=this_columnsize,h=0.15,txt=get_random_address(), align="C")
-        if j < cols:
-            #pdf.cell(w=0.118,h=1,ln=0,fill=False, align="C", border=0)
-            None
-    pdf.ln(0.2)
-    for j in range(cols):
-        this_columnsize=columnsize
-        if j < cols:
-            this_columnsize = this_columnsize + inner_cell_margin
-        pdf.set_font('helvetica','B',8)
-        pdf.cell(w=this_columnsize,h=0.1,txt="Honolulu, HI, 96860", align="C")
-    pdf.ln(0.35)
+people = []
 
-pdf.add_page()
+def add_person_for_label(person_id, name, address, city, state, zip):
+    '''
+    Adds a person to the master people list for label creation
 
-#TODO: Add logic to create multiple pages
+    #param person_id: ID for a person used only for testing
+    #param name: Name of the person
+    #param address: The address for the person
+    #param city: The city for the person
+    #param state: The state for the person
+    #param zip: The zip for the person
+    '''
+    people.append({
+        "PERSON_ID": person_id,
+        "NAME": name,
+        "ADDRESS": address,
+        "CITY": city,
+        "STATE": state,
+        "ZIP": zip
+    })
 
-for i in range(rows):
-    for j in range(cols):
-        this_columnsize=columnsize
-        if j < cols:
-            this_columnsize = this_columnsize + inner_cell_margin
-        pdf.cell(w=this_columnsize,h=1,fill=False, align="C", border=1)
-    pdf.ln(0.25)
-    for j in range(cols):
-        this_columnsize=columnsize
-        if j < cols:
-            this_columnsize = this_columnsize + inner_cell_margin
-        pdf.set_font('helvetica','B',10)
-        pdf.cell(w=this_columnsize,h=0.2,txt=get_random_name(), align="C")
-    pdf.ln(0.2)
-    for j in range(cols):
-        this_columnsize=columnsize
-        if j < cols:
-            this_columnsize = this_columnsize + inner_cell_margin
-        pdf.set_font('helvetica','B',8)
-        pdf.cell(w=this_columnsize,h=0.15,txt=get_random_address(), align="C")
-        if j < cols:
-            #pdf.cell(w=0.118,h=1,ln=0,fill=False, align="C", border=0)
-            None
-    pdf.ln(0.2)
-    for j in range(cols):
-        this_columnsize=columnsize
-        if j < cols:
-            this_columnsize = this_columnsize + inner_cell_margin
-        pdf.set_font('helvetica','B',8)
-        pdf.cell(w=this_columnsize,h=0.1,txt="Honolulu, HI, 96860", align="C")
-    pdf.ln(0.35)
+def add_fake_people(amount):
+    '''
+    This function adds fake people to the labels for testing of the design
+    #param amount: Adds this many fake people
+    '''
+    for person_id in range(1, amount + 1):
+        add_person_for_label(person_id, get_random_name_for_testing(), get_random_address_for_testing(), "Honolulu", "HI", 96860)
 
-pdf.output(output_location)
+def get_person_for_label_creation_by_amount(amount):
+    '''
+    This function pulls a defined number of people from the master people list.
+    This is used to get the necessary amount of people to create a row from left to right.
+    Note: Every person retrieved is removed (or popped) from the master list
+    #param amount: Gets this many people from the master people list
+    '''
+    result = []
+    for i in range(0, min(amount, len(people))): result.append(people.pop(0))
+    return result
+
+# Add fake people if testing mode is turned on
+add_fake_people(TESTING_MODE_FAKE_PEOPLE_AMOUNT) if TESTING_MODE else None
+
+# Calculate the amount of label pages needed for the amount of people
+total_people = len(people)
+page_amount = math.ceil(len(people) / (LABEL_COUNT_UP_DOWN * LABEL_COUNT_LEFT_RIGHT))
+
+print(f'Creating labels for {len(people)} people.')
+print('Page amount: ', page_amount)
+
+for page in range(0, page_amount):
+    '''
+    This section is called per page
+    '''
+    pdf.add_page()
+    for i in range(LABEL_COUNT_UP_DOWN):
+        #LABEL BORDERS
+        person = get_person_for_label_creation_by_amount(LABEL_COUNT_LEFT_RIGHT)
+        column_count = min(LABEL_COUNT_LEFT_RIGHT, len(person))
+        for j in range(column_count):
+            this_LABEL_WIDTH=LABEL_WIDTH
+            if j < LABEL_COUNT_LEFT_RIGHT:
+                this_LABEL_WIDTH = this_LABEL_WIDTH + INNER_MARGIN
+            pdf.cell(w=this_LABEL_WIDTH,h=1,fill=False, align="C", border=1 if ADD_LABEL_BORDERS else 0)
+        pdf.ln(HEIGHT_ABOVE_NAME)
+
+        #LABEL NAMES
+        for j in range(0,column_count):
+            this_LABEL_WIDTH=LABEL_WIDTH
+            if j < LABEL_COUNT_LEFT_RIGHT:
+                this_LABEL_WIDTH = this_LABEL_WIDTH + INNER_MARGIN
+            pdf.set_font(NAME_FONT_TYPE,'B' if NAME_FONT_BOLD else '',NAME_FONT_SIZE)
+            name = f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}" if TESTING_MODE else {person[j]['NAME']}
+            pdf.cell(w=this_LABEL_WIDTH,h=NAME_HEIGHT,txt=f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}", align="C")
+        pdf.ln(HEIGHT_BELOW_NAME)
+
+        #LABEL ADDRESSES
+        for j in range(0,column_count):
+            this_LABEL_WIDTH=LABEL_WIDTH
+            if j < LABEL_COUNT_LEFT_RIGHT:
+                this_LABEL_WIDTH = this_LABEL_WIDTH + INNER_MARGIN
+            pdf.set_font(ADDRESS_FONT_TYPE,'B' if ADDRESS_FONT_BOLD else '',ADDRESS_FONT_SIZE)
+            pdf.cell(w=this_LABEL_WIDTH,h=ADDRESS_HEIGHT,txt=person[j]['ADDRESS'], align="C")
+        pdf.ln(HEIGHT_BELOW_ADDRESS)
+
+        #LABEL STATES, CITIES, ZIP CODES
+        for j in range(0,column_count):
+            this_LABEL_WIDTH=LABEL_WIDTH
+            if j < LABEL_COUNT_LEFT_RIGHT:
+                this_LABEL_WIDTH = this_LABEL_WIDTH + INNER_MARGIN
+            pdf.set_font(STATE_CITY_ZIP_FONT_TYPE,'B' if STATE_CITY_ZIP_BOLD else '',STATE_CITY_ZIP_FONT_SIZE)
+            pdf.cell(w=this_LABEL_WIDTH,h=STATE_CITY_ZIP_HEIGHT,txt=f"{person[j]['CITY']}, {person[j]['STATE']}, {person[j]['ZIP']}", align="C")
+        pdf.ln(HEIGHT_BELOW_STATE_CITY_ZIP)
+
+pdf.output(LABEL_OUTPUT_LOCATION)
+print(f'Created labels for {total_people - len(people)} people ready to print at location {LABEL_OUTPUT_LOCATION}')
+#endregion
