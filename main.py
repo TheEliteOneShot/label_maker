@@ -163,5 +163,5 @@ for page in range(0, page_amount):
         pdf.ln(HEIGHT_BELOW_STATE_CITY_ZIP)
 
 pdf.output(LABEL_OUTPUT_LOCATION)
-print(f'Created labels for {total_people - len(people)} people ready to print at location {LABEL_OUTPUT_LOCATION}')
+print(f'Created labels for {total_people - len(people)} people out of {total_people} people at location {LABEL_OUTPUT_LOCATION}')
 #endregion
