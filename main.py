@@ -10,7 +10,10 @@ PAGE_HEIGHT=11 #inches
 PAGE_WIDTH=8.5 #inches
 LEFT_MARGIN=0.137 #inches
 TOP_MARGIN=0.5 #inches
-RIGHT_MARGIN=0.137 #inches, current output has more space than 0.137 inches so this variable isn't really being used. It's around .25 inches but I'm thinking this is how the labels look on the printing paper.
+#The current RIGHT_MARGIN output has more space than 0.137 inches so this variable isn't really being used. 
+#It's somewhere around 0.25 inches but I'm thinking this is how the labels look on the printing paper so it's fine.
+#If for some reason the output doesn't fit the printing paper then the other variables will have to be slightly tuned until it works.
+RIGHT_MARGIN=0.137 #inches
 INNER_MARGIN=0.118 #inches
 BOTTOM_MARGIN=None #No option to configure this. It's determined by the calculation of the other margins within page size
 LABEL_WIDTH=2.625 #inches
