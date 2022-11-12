@@ -21,8 +21,8 @@ MASTER_FONT_TYPE='helvetica'
 MASTER_FONT_SIZE=7
 MASTER_FONT_BOLD=True
 LABEL_OUTPUT_FILE_NAME="labels.pdf"
-LABEL_OUTPUT_LOCATION=f"{Path(__file__).parent.absolute()}{LABEL_OUTPUT_FILE_NAME}"
-ADD_LABEL_BORDERS=True #Adds borders to the labels
+LABEL_OUTPUT_LOCATION=f"{Path(__file__).parent.absolute()}\\{LABEL_OUTPUT_FILE_NAME}"
+ADD_LABEL_BORDERS=False #Adds borders to the labels
 TESTING_MODE=True #Adds fake people. Turn off when ready to use with real people
 TESTING_MODE_FAKE_PEOPLE_AMOUNT=200 #Amount of fake people to add for testing mode
 
