@@ -1,6 +1,6 @@
 # Description
 
-This simple python program creates labels in a .pdf file ready to print from any home printer. This program has **ALREADY BEEN PRE-CONFIGURED for the following Amazon labels.**
+This simple python program creates labels in a .pdf file ready to print from any home printer for any amount of people. Only thing required is to write a function to import the contacts from an external file and call the correct function to add each contact when the program starts. This program has **ALREADY BEEN PRE-CONFIGURED for the following Amazon labels.**
 
 [logo]: amazon_logo.jpg "Configured for these labels available at Amazon"
 
@@ -21,9 +21,13 @@ Link to these labels located at Amazon: https://www.amazon.com/Address-Labels-St
     <h3>This program currently produces this output</h3>
 </p>
 
+<p align="center">
+  <img width="1568" height="1403" alt="Example Output" src="output.png">
+</p>
+
 # Installation
 
-Requirements: At least Python version 3.0
+Program tested and working for Python 3.10.3
 
 1. pip install fpdf2
 
