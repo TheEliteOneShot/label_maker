@@ -12,7 +12,7 @@ LEFT_MARGIN=0.137 #inches
 TOP_MARGIN=0.5 #inches
 RIGHT_MARGIN=0.137 #inches
 INNER_MARGIN=0.118 #inches
-BOTTOM_MARGIN=None #Determined by the calculation of the other margins and page size
+BOTTOM_MARGIN=None #No option to configure this. It's determined by the calculation of the other margins within page size
 LABEL_WIDTH=2.625 #inches
 LABEL_HEIGHT=1 #inches
 LABEL_COUNT_UP_DOWN=10
@@ -20,7 +20,8 @@ LABEL_COUNT_LEFT_RIGHT=3
 MASTER_FONT_TYPE='helvetica'
 MASTER_FONT_SIZE=7
 MASTER_FONT_BOLD=True
-LABEL_OUTPUT_LOCATION=f"{Path(__file__).parent.absolute()}\\labels.pdf"
+LABEL_OUTPUT_FILE_NAME="labels.pdf"
+LABEL_OUTPUT_LOCATION=f"{Path(__file__).parent.absolute()}{LABEL_OUTPUT_FILE_NAME}"
 ADD_LABEL_BORDERS=True #Adds borders to the labels
 TESTING_MODE=True #Adds fake people. Turn off when ready to use with real people
 TESTING_MODE_FAKE_PEOPLE_AMOUNT=200 #Amount of fake people to add for testing mode
@@ -128,38 +129,40 @@ for page in range(0, page_amount):
         person = get_person_for_label_creation_by_amount(LABEL_COUNT_LEFT_RIGHT)
         column_count = min(LABEL_COUNT_LEFT_RIGHT, len(person))
         for j in range(column_count):
-            __label_width=LABEL_WIDTH
-            if j < LABEL_COUNT_LEFT_RIGHT:
-                __label_width = __label_width + INNER_MARGIN
-            pdf.cell(w=__label_width,h=1,fill=False, align="C", border=1 if ADD_LABEL_BORDERS else 0)
+            pdf.cell(w=LABEL_WIDTH,h=1,fill=False, align="C", border=1 if ADD_LABEL_BORDERS else 0)
+            
+            #Add the inner margin
+            if j < LABEL_COUNT_LEFT_RIGHT - 1:
+                pdf.cell(w=INNER_MARGIN,h=1,fill=False, align="C", border=0)
 
         #LABEL NAMES
         pdf.ln(HEIGHT_ABOVE_NAME)
-        for j in range(0,column_count):
-            __label_width=LABEL_WIDTH
-            if j < LABEL_COUNT_LEFT_RIGHT:
-                __label_width = __label_width + INNER_MARGIN
+        for j in range(column_count):
             pdf.set_font(NAME_FONT_TYPE,'B' if NAME_FONT_BOLD else '',NAME_FONT_SIZE)
             name = f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}" if TESTING_MODE else {person[j]['NAME']}
-            pdf.cell(w=__label_width,h=NAME_HEIGHT,txt=f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}", align="C")
+            pdf.cell(w=LABEL_WIDTH,h=NAME_HEIGHT,txt=f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}", align="C")
+
+            #Add the inner margin
+            if j < LABEL_COUNT_LEFT_RIGHT - 1:
+                pdf.cell(w=INNER_MARGIN,h=1,fill=False, align="C", border=0)
         pdf.ln(HEIGHT_BELOW_NAME)
 
         #LABEL ADDRESSES
-        for j in range(0,column_count):
-            __label_width=LABEL_WIDTH
-            if j < LABEL_COUNT_LEFT_RIGHT:
-                __label_width = __label_width + INNER_MARGIN
+        for j in range(column_count):
             pdf.set_font(ADDRESS_FONT_TYPE,'B' if ADDRESS_FONT_BOLD else '',ADDRESS_FONT_SIZE)
-            pdf.cell(w=__label_width,h=ADDRESS_HEIGHT,txt=person[j]['ADDRESS'], align="C")
+            pdf.cell(w=LABEL_WIDTH,h=ADDRESS_HEIGHT,txt=person[j]['ADDRESS'], align="C")
+            if j < LABEL_COUNT_LEFT_RIGHT - 1:
+                pdf.cell(w=INNER_MARGIN,h=1,fill=False, align="C", border=0)
         pdf.ln(HEIGHT_BELOW_ADDRESS)
 
         #LABEL STATES, CITIES, ZIP CODES
-        for j in range(0,column_count):
-            __label_width=LABEL_WIDTH
-            if j < LABEL_COUNT_LEFT_RIGHT:
-                __label_width = __label_width + INNER_MARGIN
+        for j in range(column_count):
             pdf.set_font(STATE_CITY_ZIP_FONT_TYPE,'B' if STATE_CITY_ZIP_BOLD else '',STATE_CITY_ZIP_FONT_SIZE)
-            pdf.cell(w=__label_width,h=STATE_CITY_ZIP_HEIGHT,txt=f"{person[j]['CITY']}, {person[j]['STATE']}, {person[j]['ZIP']}", align="C")
+            pdf.cell(w=LABEL_WIDTH,h=STATE_CITY_ZIP_HEIGHT,txt=f"{person[j]['CITY']}, {person[j]['STATE']}, {person[j]['ZIP']}", align="C")
+
+            #Add the inner margin
+            if j < LABEL_COUNT_LEFT_RIGHT - 1:
+                pdf.cell(w=INNER_MARGIN,h=1,fill=False, align="C", border=0)
         pdf.ln(HEIGHT_BELOW_STATE_CITY_ZIP)
 
 pdf.output(LABEL_OUTPUT_LOCATION)
