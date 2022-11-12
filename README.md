@@ -1,12 +1,13 @@
 # Description
 
-Creates standard labels with a simple python program using FPDF2. This program is highly configurable and has **ALREADY BEEN PRE-CONFIGURED for the following Amazon labels.**
+This simple python program creates labels in a .pdf file ready to print from any home printer. This program has **ALREADY BEEN PRE-CONFIGURED for the following Amazon labels.**
 
-[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png](https://m.media-amazon.com/images/I/61yPOCT9otL._AC_SL1500_.jpg "Logo Title Text 2"
-Reference-style: 
-![alt text][logo]
+[logo]: amazon_logo.jpg "Configured for these labels available at Amazon"
 
-Amazon Labels: https://www.amazon.com/Address-Labels-Sticker-Printer-mailing/dp/B09P16YV2K/
+![Amazon Logos][logo]
+
+Link to these labels located at Amazon: https://www.amazon.com/Address-Labels-Sticker-Printer-mailing/dp/B09P16YV2K/
+
 <p align="center">
     <h3>Label Specifications</h3>
     The red text corresponds to the configuration variables inside the code.
@@ -14,6 +15,10 @@ Amazon Labels: https://www.amazon.com/Address-Labels-Sticker-Printer-mailing/dp/
 
 <p align="center">
   <img width="1568" height="1403" alt="Label Specification" src="label_description.jpg">
+</p>
+
+<p align="center">
+    <h3>This program currently produces this output</h3>
 </p>
 
 # Installation
@@ -49,7 +54,7 @@ def add_person_for_label(person_id, name, address, city, state, zip):
 `
 It will currently produce the labels to be printed in the directory where the script is run.
 
-# FPDF2
+# This program utilizes FPDF2
 
 Please read the documentation for FPDF2 for help with configuring more advanced labels
 FPDF2: https://pyfpdf.github.io/fpdf2/
