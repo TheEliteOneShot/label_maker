@@ -1,6 +1,20 @@
 # Description
 
-Creates standard labels with a simple python program. Highly configurable
+Creates standard labels with a simple python program using FPDF2. This program is highly configurable and has **ALREADY BEEN PRE-CONFIGURED for the following Amazon labels.**
+
+[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png](https://m.media-amazon.com/images/I/61yPOCT9otL._AC_SL1500_.jpg "Logo Title Text 2"
+Reference-style: 
+![alt text][logo]
+
+Amazon Labels: https://www.amazon.com/Address-Labels-Sticker-Printer-mailing/dp/B09P16YV2K/
+<p align="center">
+    <h3>Label Specifications</h3>
+    The red text corresponds to the configuration variables inside the code.
+</p>
+
+<p align="center">
+  <img width="1568" height="1403" alt="Label Specification" src="label_description.jpg">
+</p>
 
 # Installation
 
@@ -35,5 +49,7 @@ def add_person_for_label(person_id, name, address, city, state, zip):
 `
 It will currently produce the labels to be printed in the directory where the script is run.
 
-#TODO
-Need to implement code to extract a list of people contacts from a file like excel, iphone, word, etc.
+# FPDF2
+
+Please read the documentation for FPDF2 for help with configuring more advanced labels
+FPDF2: https://pyfpdf.github.io/fpdf2/
