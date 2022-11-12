@@ -132,9 +132,9 @@ for page in range(0, page_amount):
             if j < LABEL_COUNT_LEFT_RIGHT:
                 __label_width = __label_width + INNER_MARGIN
             pdf.cell(w=__label_width,h=1,fill=False, align="C", border=1 if ADD_LABEL_BORDERS else 0)
-        pdf.ln(HEIGHT_ABOVE_NAME)
 
         #LABEL NAMES
+        pdf.ln(HEIGHT_ABOVE_NAME)
         for j in range(0,column_count):
             __label_width=LABEL_WIDTH
             if j < LABEL_COUNT_LEFT_RIGHT:
