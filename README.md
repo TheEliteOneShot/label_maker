@@ -60,5 +60,4 @@ It will currently produce the labels to be printed in the directory where the sc
 
 # This program utilizes FPDF2
 
-Please read the documentation for FPDF2 for help with configuring more advanced labels
-FPDF2: https://pyfpdf.github.io/fpdf2/
+Please read the FPDF2 documentation for additional configuration assistance: https://pyfpdf.github.io/fpdf2/
