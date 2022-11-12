@@ -56,7 +56,7 @@ def add_person_for_label(person_id, name, address, city, state, zip):
         "ZIP": zip
     })
 ```
-It will currently produce the labels to be printed in the directory where the script is run.
+It will currently produce the labels to be printed inside the same directory where main.py is run.
 
 # This program utilizes FPDF2
 
