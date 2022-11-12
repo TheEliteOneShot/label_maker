@@ -58,6 +58,8 @@ def add_person_for_label(person_id, name, address, city, state, zip):
 ```
 It will currently produce the labels to be printed inside the same directory where main.py is run.
 
+This program may possibly need to be slightly tuned to create expected output, although the dimensions for the Amazon product described have been correctly pre-configured. The right margin appears to be whatever space is left after everything was added so it is my guess that the right margin having more space than the left margin matches how the labels appear on the printing paper. If not then the labels may need to be slightly shifted to the right by modifying the LEFT_MARGIN variable.
+
 # This program utilizes FPDF2
 
 Please read the FPDF2 documentation for additional configuration assistance: https://pyfpdf.github.io/fpdf2/
