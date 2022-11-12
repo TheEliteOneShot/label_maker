@@ -128,38 +128,38 @@ for page in range(0, page_amount):
         person = get_person_for_label_creation_by_amount(LABEL_COUNT_LEFT_RIGHT)
         column_count = min(LABEL_COUNT_LEFT_RIGHT, len(person))
         for j in range(column_count):
-            this_LABEL_WIDTH=LABEL_WIDTH
+            __label_width=LABEL_WIDTH
             if j < LABEL_COUNT_LEFT_RIGHT:
-                this_LABEL_WIDTH = this_LABEL_WIDTH + INNER_MARGIN
-            pdf.cell(w=this_LABEL_WIDTH,h=1,fill=False, align="C", border=1 if ADD_LABEL_BORDERS else 0)
+                __label_width = __label_width + INNER_MARGIN
+            pdf.cell(w=__label_width,h=1,fill=False, align="C", border=1 if ADD_LABEL_BORDERS else 0)
         pdf.ln(HEIGHT_ABOVE_NAME)
 
         #LABEL NAMES
         for j in range(0,column_count):
-            this_LABEL_WIDTH=LABEL_WIDTH
+            __label_width=LABEL_WIDTH
             if j < LABEL_COUNT_LEFT_RIGHT:
-                this_LABEL_WIDTH = this_LABEL_WIDTH + INNER_MARGIN
+                __label_width = __label_width + INNER_MARGIN
             pdf.set_font(NAME_FONT_TYPE,'B' if NAME_FONT_BOLD else '',NAME_FONT_SIZE)
             name = f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}" if TESTING_MODE else {person[j]['NAME']}
-            pdf.cell(w=this_LABEL_WIDTH,h=NAME_HEIGHT,txt=f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}", align="C")
+            pdf.cell(w=__label_width,h=NAME_HEIGHT,txt=f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}", align="C")
         pdf.ln(HEIGHT_BELOW_NAME)
 
         #LABEL ADDRESSES
         for j in range(0,column_count):
-            this_LABEL_WIDTH=LABEL_WIDTH
+            __label_width=LABEL_WIDTH
             if j < LABEL_COUNT_LEFT_RIGHT:
-                this_LABEL_WIDTH = this_LABEL_WIDTH + INNER_MARGIN
+                __label_width = __label_width + INNER_MARGIN
             pdf.set_font(ADDRESS_FONT_TYPE,'B' if ADDRESS_FONT_BOLD else '',ADDRESS_FONT_SIZE)
-            pdf.cell(w=this_LABEL_WIDTH,h=ADDRESS_HEIGHT,txt=person[j]['ADDRESS'], align="C")
+            pdf.cell(w=__label_width,h=ADDRESS_HEIGHT,txt=person[j]['ADDRESS'], align="C")
         pdf.ln(HEIGHT_BELOW_ADDRESS)
 
         #LABEL STATES, CITIES, ZIP CODES
         for j in range(0,column_count):
-            this_LABEL_WIDTH=LABEL_WIDTH
+            __label_width=LABEL_WIDTH
             if j < LABEL_COUNT_LEFT_RIGHT:
-                this_LABEL_WIDTH = this_LABEL_WIDTH + INNER_MARGIN
+                __label_width = __label_width + INNER_MARGIN
             pdf.set_font(STATE_CITY_ZIP_FONT_TYPE,'B' if STATE_CITY_ZIP_BOLD else '',STATE_CITY_ZIP_FONT_SIZE)
-            pdf.cell(w=this_LABEL_WIDTH,h=STATE_CITY_ZIP_HEIGHT,txt=f"{person[j]['CITY']}, {person[j]['STATE']}, {person[j]['ZIP']}", align="C")
+            pdf.cell(w=__label_width,h=STATE_CITY_ZIP_HEIGHT,txt=f"{person[j]['CITY']}, {person[j]['STATE']}, {person[j]['ZIP']}", align="C")
         pdf.ln(HEIGHT_BELOW_STATE_CITY_ZIP)
 
 pdf.output(LABEL_OUTPUT_LOCATION)
