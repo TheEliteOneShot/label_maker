@@ -33,9 +33,9 @@ Program tested and working for Python 3.10.3
 
 # Instructions
 
-Call the function below from a list of contacts to add people to the master list and the labels should automatically be generated when the program finishes.
+Write the code to import contacts from an external list of contacts and call this function located in the program to add people to the master list. The labels should automatically be generated before the program finishes.
 
-`
+```
 def add_person_for_label(person_id, name, address, city, state, zip):
     '''
     Adds a person to the master people list for label creation
@@ -55,7 +55,7 @@ def add_person_for_label(person_id, name, address, city, state, zip):
         "STATE": state,
         "ZIP": zip
     })
-`
+```
 It will currently produce the labels to be printed in the directory where the script is run.
 
 # This program utilizes FPDF2
