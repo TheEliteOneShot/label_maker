@@ -54,7 +54,7 @@ Include a .CSV file in the same directory as main.py with the following format a
     ├── ...
     ├── main.py   # Python File
     ├── any_csv_with_correct_headers.csv  # Contacts in CSV format with correct format
-    ├──labels.pdf  # Will generate this file
+    ├── --> labels.pdf  # Will generate this file when program finishes
     └── ...
 
 <h2>OR</h2>
