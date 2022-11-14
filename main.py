@@ -2,6 +2,7 @@ from fpdf import FPDF #pip install fpdf2
 import random # this import is needed only for testing functionality
 import math
 from pathlib import Path
+import os
 
 #region Configuration
 #MASTER section
@@ -17,32 +18,32 @@ LABEL_WIDTH=2.625 #inches
 LABEL_HEIGHT=1 #inches
 LABEL_COUNT_UP_DOWN=10
 LABEL_COUNT_LEFT_RIGHT=3
-MASTER_FONT_TYPE='helvetica'
+MASTER_FONT_TYPE='arial'
 MASTER_FONT_SIZE=7
 MASTER_FONT_BOLD=True
-LABEL_OUTPUT_FILE_NAME="labels.pdf"
-LABEL_OUTPUT_LOCATION=f"{Path(__file__).parent.absolute()}\\{LABEL_OUTPUT_FILE_NAME}"
+LABEL_OUTPUT_FILE_NAME="labels"
+LABEL_OUTPUT_FILE_EXTENSION=".pdf"
 ADD_LABEL_BORDERS=False #Adds borders to the labels
-TESTING_MODE=True #Adds fake people. Turn off when ready to use with real people
+TESTING_MODE=False #Adds fake people. Turn off when ready to use with real people
 TESTING_MODE_FAKE_PEOPLE_AMOUNT=200 #Amount of fake people to add for testing mode
 
 #NAME label section
 HEIGHT_ABOVE_NAME=0.25 #inches
-NAME_FONT_TYPE='helvetica'
+NAME_FONT_TYPE='arial'
 NAME_FONT_SIZE=10
 NAME_FONT_BOLD=True
 NAME_HEIGHT=0.2 #inches
 HEIGHT_BELOW_NAME=0.2 #inches
 
 #ADDRESS label section
-ADDRESS_FONT_TYPE='helvetica'
+ADDRESS_FONT_TYPE='arial'
 ADDRESS_FONT_SIZE=8
 ADDRESS_FONT_BOLD=True
 ADDRESS_HEIGHT=0.2 #inches
 HEIGHT_BELOW_ADDRESS=0.2 #inches
 
 #STATE, CITY, and ZIP label section
-STATE_CITY_ZIP_FONT_TYPE='helvetica'
+STATE_CITY_ZIP_FONT_TYPE='arial'
 STATE_CITY_ZIP_FONT_SIZE=8
 STATE_CITY_ZIP_BOLD=True
 STATE_CITY_ZIP_HEIGHT=0.1 #inches
@@ -56,6 +57,24 @@ pdf.set_auto_page_break(False)
 #endregion
 
 #region Main Code
+
+def get_current_output_files_in_directory():
+    '''
+    Gets the count of label output files in the current directory
+    '''
+    current_count = 0
+    for x in os.listdir():
+        if x.endswith(".pdf"):
+            current_count = current_count + 1
+    return current_count
+
+def get_current_output_file_name():
+    '''
+    Gets the output file name and adds a version number if there are more than one so it doesn't overwrite the previous one
+    '''
+    __version = get_current_output_files_in_directory()
+    return f"{Path(__file__).parent.absolute()}\\{LABEL_OUTPUT_FILE_NAME + '_' + str(__version) if __version > 0 else LABEL_OUTPUT_FILE_NAME}{LABEL_OUTPUT_FILE_EXTENSION}"
+
 def get_random_name_for_testing():
     '''
     Gets a random male or female name
@@ -70,7 +89,7 @@ def get_random_address_for_testing():
 
 people = []
 
-def add_person_for_label(person_id, name, address, city, state, zip):
+def add_person_for_label(person_id, name, address, city, state, zip, country):
     '''
     Adds a person to the master people list for label creation
 
@@ -80,6 +99,7 @@ def add_person_for_label(person_id, name, address, city, state, zip):
     #param city: The city for the person
     #param state: The state for the person
     #param zip: The zip for the person
+    #param country: The country for the person
     '''
     people.append({
         "PERSON_ID": person_id,
@@ -87,7 +107,8 @@ def add_person_for_label(person_id, name, address, city, state, zip):
         "ADDRESS": address,
         "CITY": city,
         "STATE": state,
-        "ZIP": zip
+        "ZIP": zip,
+        "COUNTRY": country
     })
 
 def add_fake_people(amount):
@@ -109,15 +130,30 @@ def get_person_for_label_creation_by_amount(amount):
     for i in range(0, min(amount, len(people))): result.append(people.pop(0))
     return result
 
+def read_contacts_from_csv():
+    for x in os.listdir():
+        if x.endswith(".csv"):
+            input_file = open(f"{Path(__file__).parent.absolute()}\\{x}", "r", encoding="utf8")
+            for position, line in enumerate(input_file.readlines(),0):
+                if position > 0:
+                    sections = line.split(",")
+                    name = sections[0]
+                    address = sections[1]
+                    city = sections[2]
+                    state = sections[3]
+                    zip_code = sections[4]
+                    country = sections[5]
+                    add_person_for_label(len(people), name, address, city, state, zip_code, country)
+            
+
 # Add fake people if testing mode is turned on
-add_fake_people(TESTING_MODE_FAKE_PEOPLE_AMOUNT) if TESTING_MODE else None
+add_fake_people(TESTING_MODE_FAKE_PEOPLE_AMOUNT) if TESTING_MODE else read_contacts_from_csv()
 
 # Calculate the amount of label pages needed for the amount of people
 total_people = len(people)
 page_amount = math.ceil(len(people) / (LABEL_COUNT_UP_DOWN * LABEL_COUNT_LEFT_RIGHT))
 
-print(f'Creating labels for {len(people)} people.')
-print('Page amount: ', page_amount)
+print(f'Creating {page_amount} pages of labels for {len(people)} people.')
 
 for page in range(0, page_amount):
     '''
@@ -140,7 +176,7 @@ for page in range(0, page_amount):
         for j in range(column_count):
             pdf.set_font(NAME_FONT_TYPE,'B' if NAME_FONT_BOLD else '',NAME_FONT_SIZE)
             name = f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}" if TESTING_MODE else {person[j]['NAME']}
-            pdf.cell(w=LABEL_WIDTH,h=NAME_HEIGHT,txt=f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}", align="C")
+            pdf.cell(w=LABEL_WIDTH,h=NAME_HEIGHT,txt=f"{person[j]['NAME']}", align="C")
 
             #Add the inner margin
             if j < LABEL_COUNT_LEFT_RIGHT - 1:
@@ -158,13 +194,19 @@ for page in range(0, page_amount):
         #LABEL STATES, CITIES, ZIP CODES
         for j in range(column_count):
             pdf.set_font(STATE_CITY_ZIP_FONT_TYPE,'B' if STATE_CITY_ZIP_BOLD else '',STATE_CITY_ZIP_FONT_SIZE)
-            pdf.cell(w=LABEL_WIDTH,h=STATE_CITY_ZIP_HEIGHT,txt=f"{person[j]['CITY']}, {person[j]['STATE']}, {person[j]['ZIP']}", align="C")
+            __city = f"{person[j]['CITY']}, " if person[j]['CITY'].strip() is not "" else person[j]['CITY']
+            __state = f"{person[j]['STATE']}, " if person[j]['STATE'].strip() is not "" else person[j]['STATE']
+            __zip = f"{person[j]['ZIP']}, " if person[j]['ZIP'].strip() is not "" else person[j]['ZIP']
+            # The last item doesn't have a comma behind it
+            __country = person[j]['COUNTRY']
+            pdf.cell(w=LABEL_WIDTH,h=STATE_CITY_ZIP_HEIGHT,txt=f"{__city}{__state}{__zip}{__country}", align="C")
 
             #Add the inner margin
             if j < LABEL_COUNT_LEFT_RIGHT - 1:
                 pdf.cell(w=INNER_MARGIN,h=1,fill=False, align="C", border=0)
         pdf.ln(HEIGHT_BELOW_STATE_CITY_ZIP)
 
-pdf.output(LABEL_OUTPUT_LOCATION)
-print(f'Created labels for {total_people - len(people)} people out of {total_people} people at location {LABEL_OUTPUT_LOCATION}')
+__output_file_name = get_current_output_file_name()
+pdf.output(__output_file_name)
+print(f'Successfully created labels for {total_people - len(people)} people out of {total_people} people at location {__output_file_name}')
 #endregion
