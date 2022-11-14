@@ -48,7 +48,7 @@ Folder Structure:
 Write the code to import contacts from an external list of contacts and call this function located in the program to add people to the master list. The labels should automatically be generated before the program finishes.
 
 ```
-def add_person_for_label(person_id, name, address, city, state, zip):
+def add_person_for_label(person_id, name, address, city, state, zip, country):
     '''
     Adds a person to the master people list for label creation
 
@@ -58,6 +58,7 @@ def add_person_for_label(person_id, name, address, city, state, zip):
     #param city: The city for the person
     #param state: The state for the person
     #param zip: The zip for the person
+    #param country: The country for the person
     '''
     people.append({
         "PERSON_ID": person_id,
@@ -65,7 +66,8 @@ def add_person_for_label(person_id, name, address, city, state, zip):
         "ADDRESS": address,
         "CITY": city,
         "STATE": state,
-        "ZIP": zip
+        "ZIP": zip,
+        "COUNTRY": country
     })
 ```
 It will currently produce the labels to be printed inside the same directory where main.py is run.
