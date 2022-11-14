@@ -29,19 +29,33 @@ Link to these labels located at Amazon: https://www.amazon.com/Address-Labels-St
 
 Program tested and working for Python 3.10.3
 
-1. pip install fpdf2
+Run Commands:
+
+- pip install fpdf2
+- python main.py
 
 # Instructions
-Include a .CSV file in the same directory as main.py with the following format and <b>N</b> number of contacts and labels will be generated for them:
-- NAME, ADDRESS, CITY, STATE, ZIP, COUNTRY
-- Example Name 1, Example City 1, Example State 1, Example Zip 1, Example Country 1
-- Example Name 2, Example City 2, Example State 2, Example Zip 2, Example Country 2
-- ...
-- Example Name N, Example City N, Example State N, Example Zip N, Example Country N
 
-1. Folder Structure:
-- ./main.py
-- ./any_csv_name_with_correct_headers.csv
+Include a .CSV file in the same directory as main.py with the following format and <b>N</b> number of contacts and labels will be generated for them:
+
+`NAME, ADDRESS, CITY, STATE, ZIP, COUNTRY`
+
+`Example Name 1, Example City 1, Example State 1, Example Zip 1, Example Country 1`
+
+`Example Name 2, Example City 2, Example State 2, Example Zip 2, Example Country 2`
+
+`...`
+
+`Example Name N, Example City N, Example State N, Example Zip N, Example Country N`
+
+> **Folder Structure:**
+
+    .
+    ├── ...
+    ├── main.py   # Python File
+    ├── any_csv_with_correct_headers.csv  # Contacts in CSV format with correct format
+    ├──labels.pdf  # Will generate this file
+    └── ...
 
 <h2>OR</h2>
 
