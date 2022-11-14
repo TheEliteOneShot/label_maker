@@ -40,8 +40,8 @@ Example Name 2, Example City 2, Example State 2, Example Zip 2, Example Country 
 Example Name N, Example City N, Example State N, Example Zip N, Example Country N
 
 Folder Structure:
-./main.py
-./any_csv_name_with_correct_headers.csv
+-- ./main.py
+-- ./any_csv_name_with_correct_headers.csv
 
 <h2>OR</h2>
 
