@@ -11,6 +11,9 @@ PAGE_HEIGHT=11 #inches
 PAGE_WIDTH=8.5 #inches
 LEFT_MARGIN=0.137 #inches
 TOP_MARGIN=0.5 #inches
+#The current RIGHT_MARGIN output has more space than 0.137 inches so this variable isn't really being used. 
+#It's somewhere around 0.25 inches but I'm thinking this is how the labels look on the printing paper so it's fine.
+#If for some reason the output doesn't fit the printing paper then the other variables will have to be slightly tuned until it works.
 RIGHT_MARGIN=0.137 #inches
 INNER_MARGIN=0.118 #inches
 BOTTOM_MARGIN=None #No option to configure this. It's determined by the calculation of the other margins within page size
@@ -18,7 +21,7 @@ LABEL_WIDTH=2.625 #inches
 LABEL_HEIGHT=1 #inches
 LABEL_COUNT_UP_DOWN=10
 LABEL_COUNT_LEFT_RIGHT=3
-MASTER_FONT_TYPE='arial'
+MASTER_FONT_TYPE='helvetica'
 MASTER_FONT_SIZE=7
 MASTER_FONT_BOLD=True
 LABEL_OUTPUT_FILE_NAME="labels"
@@ -29,21 +32,21 @@ TESTING_MODE_FAKE_PEOPLE_AMOUNT=200 #Amount of fake people to add for testing mo
 
 #NAME label section
 HEIGHT_ABOVE_NAME=0.25 #inches
-NAME_FONT_TYPE='arial'
+NAME_FONT_TYPE='helvetica'
 NAME_FONT_SIZE=10
 NAME_FONT_BOLD=True
 NAME_HEIGHT=0.2 #inches
 HEIGHT_BELOW_NAME=0.2 #inches
 
 #ADDRESS label section
-ADDRESS_FONT_TYPE='arial'
+ADDRESS_FONT_TYPE='helvetica'
 ADDRESS_FONT_SIZE=8
 ADDRESS_FONT_BOLD=True
 ADDRESS_HEIGHT=0.2 #inches
 HEIGHT_BELOW_ADDRESS=0.2 #inches
 
 #STATE, CITY, and ZIP label section
-STATE_CITY_ZIP_FONT_TYPE='arial'
+STATE_CITY_ZIP_FONT_TYPE='helvetica'
 STATE_CITY_ZIP_FONT_SIZE=8
 STATE_CITY_ZIP_BOLD=True
 STATE_CITY_ZIP_HEIGHT=0.1 #inches
@@ -194,9 +197,9 @@ for page in range(0, page_amount):
         #LABEL STATES, CITIES, ZIP CODES
         for j in range(column_count):
             pdf.set_font(STATE_CITY_ZIP_FONT_TYPE,'B' if STATE_CITY_ZIP_BOLD else '',STATE_CITY_ZIP_FONT_SIZE)
-            __city = f"{person[j]['CITY']}, " if person[j]['CITY'].strip() is not "" else person[j]['CITY']
-            __state = f"{person[j]['STATE']}, " if person[j]['STATE'].strip() is not "" else person[j]['STATE']
-            __zip = f"{person[j]['ZIP']}, " if person[j]['ZIP'].strip() is not "" else person[j]['ZIP']
+            __city = f"{person[j]['CITY']}, " if person[j]['CITY'].strip() != "" else person[j]['CITY']
+            __state = f"{person[j]['STATE']}, " if person[j]['STATE'].strip() != "" else person[j]['STATE']
+            __zip = f"{person[j]['ZIP']}, " if person[j]['ZIP'].strip() != "" else person[j]['ZIP']
             # The last item doesn't have a comma behind it
             __country = person[j]['COUNTRY']
             pdf.cell(w=LABEL_WIDTH,h=STATE_CITY_ZIP_HEIGHT,txt=f"{__city}{__state}{__zip}{__country}", align="C")
