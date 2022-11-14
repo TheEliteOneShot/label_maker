@@ -66,7 +66,7 @@ def get_current_output_files_in_directory():
     Gets the count of label output files in the current directory
     '''
     current_count = 0
-    for x in os.listdir():
+    for x in os.listdir(Path(__file__).parent.absolute()):
         if x.endswith(".pdf"):
             current_count = current_count + 1
     return current_count
@@ -134,7 +134,7 @@ def get_person_for_label_creation_by_amount(amount):
     return result
 
 def read_contacts_from_csv():
-    for x in os.listdir():
+    for x in os.listdir(Path(__file__).parent.absolute()):
         if x.endswith(".csv"):
             input_file = open(f"{Path(__file__).parent.absolute()}\\{x}", "r", encoding="utf8")
             for position, line in enumerate(input_file.readlines(),0):
@@ -156,7 +156,7 @@ add_fake_people(TESTING_MODE_FAKE_PEOPLE_AMOUNT) if TESTING_MODE else read_conta
 total_people = len(people)
 page_amount = math.ceil(len(people) / (LABEL_COUNT_UP_DOWN * LABEL_COUNT_LEFT_RIGHT))
 
-print(f'Creating {page_amount} pages of labels for {len(people)} people.')
+print(f'Now starting to generate {page_amount} pages of labels for {len(people)} people.')
 
 for page in range(0, page_amount):
     '''
