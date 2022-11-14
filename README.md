@@ -32,6 +32,18 @@ Program tested and working for Python 3.10.3
 1. pip install fpdf2
 
 # Instructions
+Include a .CSV file in the same directory as main.py with the following format and <b>N</b> number of contacts and labels will be generated for them:
+NAME, ADDRESS, CITY, STATE, ZIP, COUNTRY
+Example Name 1, Example City 1, Example State 1, Example Zip 1, Example Country 1
+Example Name 2, Example City 2, Example State 2, Example Zip 2, Example Country 2
+...
+Example Name N, Example City N, Example State N, Example Zip N, Example Country N
+
+Folder Structure:
+./main.py
+./any_csv_name_with_correct_headers.csv
+
+<h2>OR</h2>
 
 Write the code to import contacts from an external list of contacts and call this function located in the program to add people to the master list. The labels should automatically be generated before the program finishes.
 
