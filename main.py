@@ -179,7 +179,7 @@ for page in range(0, page_amount):
         for j in range(column_count):
             pdf.set_font(NAME_FONT_TYPE,'B' if NAME_FONT_BOLD else '',NAME_FONT_SIZE)
             name = f"{person[j]['NAME']} ID: {person[j]['PERSON_ID']}" if TESTING_MODE else {person[j]['NAME']}
-            pdf.cell(w=LABEL_WIDTH,h=NAME_HEIGHT,txt=f"{person[j]['NAME']}", align="C")
+            pdf.cell(w=LABEL_WIDTH,h=NAME_HEIGHT,txt=name, align="C")
 
             #Add the inner margin
             if j < LABEL_COUNT_LEFT_RIGHT - 1:
