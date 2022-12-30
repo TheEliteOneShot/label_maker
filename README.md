@@ -1,6 +1,6 @@
 # Description
 
-This simple python program, <b>main.py</b>, creates labels in a .pdf file ready to print from any home printer for any amount of labels. Only thing required is to write a function to import the contacts from an external file and call the correct function to add each contact when the program starts. This program has **ALREADY BEEN PRE-CONFIGURED for the following Amazon labels (1" x 2-5/8" | 30 sheets)**
+This simple python program, <b>main.py</b>, creates labels in a .pdf file ready to print from any home printer for any amount of labels. The only thing required is to either option #1: include a .CSV file in the same directory as main.py with the following format and <b>N</b> number of contacts and labels will be generated for them *OR* option #2 is to write a function to import the contacts from an external file and call the correct function to add each contact when the program starts. This program has **ALREADY BEEN PRE-CONFIGURED for the following Amazon labels (1" x 2-5/8" | 30 sheets)**
 
 [logo]: readme/amazon_logo.jpg "Configured for these labels available at Amazon"
 
